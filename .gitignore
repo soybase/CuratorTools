@@ -1,0 +1,8 @@
+.DS_Store
+*.FASTA
+*.fasta
+*.VCF
+*.vcf
+*.TXT
+*.txt
+settings.php
