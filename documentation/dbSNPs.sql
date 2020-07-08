@@ -3,6 +3,26 @@
 
 USE dbPHPSNP;
 
+# Dump of table tblUsers
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS tblUsers;
+
+CREATE TABLE tblUsers (
+  id INT(11) unsigned NOT NULL AUTO_INCREMENT,
+  fname VARCHAR(64) NULL,
+  lname VARCHAR(64) NULL,
+  email VARCHAR(64) NULL,
+  password CHAR(64) NULL,
+  role VARCHAR(32) NULL,
+  status VARCHAR(16) NULL,
+  session_key CHAR(64) NULL,
+  history JSON NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
 # Dump of table tblAssemblies
 # ------------------------------------------------------------
 
@@ -78,7 +98,3 @@ CREATE TABLE tblStudies (
   cultivars json DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-
-
