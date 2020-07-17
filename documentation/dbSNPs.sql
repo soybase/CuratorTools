@@ -1,7 +1,7 @@
 # Set current working database
 # ------------------------------------------------------------
 
-USE dbPHPSNP;
+USE dbCuratorTools;
 
 # Dump of table tblUsers
 # ------------------------------------------------------------
@@ -97,4 +97,37 @@ CREATE TABLE tblStudies (
   structures json DEFAULT NULL,
   cultivars json DEFAULT NULL,
   PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table tblSimilarityJobs
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS tblSimilarityJobs;
+
+CREATE TABLE tblSimilarityJobs (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  study_id int(11) NOT NULL,
+  sequences json DEFAULT NULL,
+  cultivars json DEFAULT NULL,
+  status varchar(32) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table tblSimilarityJobResults
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS tblSimilarityJobResults;
+
+CREATE TABLE tblSimilarityJobResults (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  similarity_job_id int(11) NOT NULL,
+  cultivar_key int(11) NOT NULL,
+  results json DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY SIMILARITY_JOB_ID_INDEX (similarity_job_id),
+  KEY CULTIVAR_KEY_INDEX (cultivar_key)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

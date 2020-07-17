@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row float-right mb-3 mr-4">
-		<small>Created with <a href="https://www.phpsnp.com">phpSNP</a>, an <a href="https://github.com/shawniconners/phpsnp">open-source</a> project.</small>
+		<small>CuratorTools is an <a href="https://github.com/soybase/CuratorTools">open-source</a> project developed and maintained by the team at USDA > ARS > CICGRU.</small>
 	</div>
 </div>
 <!-- Bootstrap core JavaScript
