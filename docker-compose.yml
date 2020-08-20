@@ -3,12 +3,14 @@ version: '2.3'
 services:
   web:
     build: .
+    environment:
+      PHP_CLI_SERVER_WORKERS: 2
     ports:
-      - "8888:80"
+      - "8080:8080"
     volumes:
-      - ".:/var/www/html:ro"
-      - "./assembly_uploads:/var/www/html/assembly_uploads:rw"
-      - "./study_uploads:/var/www/html/study_uploads:rw"
+      - ".:/app:ro"
+      - "./assembly_uploads:/app/assembly_uploads:rw"
+      - "./study_uploads:/app/study_uploads:rw"
     depends_on:
       mysql:
         condition: service_healthy
@@ -20,5 +22,6 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_DATABASE: dbCuratorTools
+    command: --slow_query_log
     volumes:
       - "./documentation/dbSNPs.sql:/docker-entrypoint-initdb.d/dbSNPs.sql:ro"
