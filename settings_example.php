@@ -24,7 +24,7 @@
 		"10.0.1.101"
 	];
 	$objSettings->database = new stdClass();
-	$objSettings->database->name = "dbSNPs";
+	$objSettings->database->name = "dbCuratorTools";
 	$objSettings->database->pool = [
 		[
 			'host' => "localhost",

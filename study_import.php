@@ -83,7 +83,7 @@
 								objCoreRequests.cores[intCoreCounter].status = "active";
 								objCoreRequests.cores[intCoreCounter].request_key = intRequestCounter;
 								objCoreRequests.cores[intCoreCounter].ajax = new XMLHttpRequest();
-								objCoreRequests.cores[intCoreCounter].ajax.open("GET", location.protocol+"//"+objCoreRequests.cores[intCoreCounter].server+"/"+objCoreRequests.requests[intRequestCounter].url+"&core="+intCoreCounter.toString(), true);
+								objCoreRequests.cores[intCoreCounter].ajax.open("GET", "/"+objCoreRequests.requests[intRequestCounter].url+"&core="+intCoreCounter.toString(), true);
 								objCoreRequests.cores[intCoreCounter].ajax.send();
 								funConsoleLog("Active and Requested: Core Key " + intCoreCounter + " with Request Key " + objCoreRequests.cores[intCoreCounter].request_key);
 								break;
