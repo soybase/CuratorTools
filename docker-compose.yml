@@ -2,15 +2,19 @@ version: '2.3'
 
 services:
   web:
-    build: .
+    image: bitnami/php-fpm:7.4-prod
     environment:
       PHP_CLI_SERVER_WORKERS: 2
     ports:
       - "8080:8080"
+    user: daemon
+    entrypoint: php -S 0.0.0.0:8080 -c /opt/bitnami/php/etc/php.ini-development -d pdo_mysql.default_socket=/run/mysqld/mysqld.sock
     volumes:
       - ".:/app:ro"
+      - "./documentation/php-snpcurator.ini:/opt/bitnami/php/etc/conf.d/php-snpcurator.ini:ro"
       - "./assembly_uploads:/app/assembly_uploads:rw"
       - "./study_uploads:/app/study_uploads:rw"
+      - mysqld-sock:/run/mysqld
     depends_on:
       mysql:
         condition: service_healthy
@@ -25,3 +29,7 @@ services:
     command: --slow_query_log
     volumes:
       - "./documentation/dbSNPs.sql:/docker-entrypoint-initdb.d/dbSNPs.sql:ro"
+      - mysqld-sock:/run/mysqld
+
+volumes:
+  mysqld-sock:
