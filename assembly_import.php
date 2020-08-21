@@ -48,11 +48,10 @@
 	$objCoreRequests = new stdClass();
 	$objCoreRequests->cores = [];
 	$objCoreRequests->requests = [];
-	for($intCoreCounter = 0; $intCoreCounter < count($objSettings->webservers); $intCoreCounter++){
+	for($intCoreCounter = 0; $intCoreCounter < $objSettings->max_concurrent_requests; $intCoreCounter++){
 		$objCore = new stdClass();
 		$objCore->status = "ready"; // options: ready, active
 		$objCore->request_key = -1;
-		$objCore->server = $objSettings->webservers[$intCoreCounter];
 		array_push($objCoreRequests->cores, $objCore);
 	}
 	foreach($objAssembly->structures as $arrStructure){

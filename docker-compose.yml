@@ -4,7 +4,15 @@ services:
   web:
     image: bitnami/php-fpm:7.4-prod
     environment:
-      PHP_CLI_SERVER_WORKERS: 2
+      PHP_CLI_SERVER_WORKERS: 4
+      CURATORTOOLS_MAX_CONCURRENT_REQUESTS: 4
+      CURATORTOOLS_INSERT_BATCH_SIZE: 100
+      CURATORTOOLS_LOOP_INTERVAL: 100
+      CURATORTOOLS_SNP_CHUNK_SIZE: 100
+      MYSQL_HOST: 'localhost'
+      MYSQL_DATABASE: 'dbCuratorTools'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: ''
     ports:
       - "8080:8080"
     user: daemon
@@ -12,8 +20,8 @@ services:
     volumes:
       - ".:/app:ro"
       - "./documentation/php-snpcurator.ini:/opt/bitnami/php/etc/conf.d/php-snpcurator.ini:ro"
-      - "./assembly_uploads:/app/assembly_uploads:rw"
-      - "./study_uploads:/app/study_uploads:rw"
+      - "./assembly_uploads:/app/assembly_uploads:rw,delegated"
+      - "./study_uploads:/app/study_uploads:rw,delegated"
       - mysqld-sock:/run/mysqld
     depends_on:
       mysql:
@@ -26,7 +34,15 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_DATABASE: dbCuratorTools
-    command: --slow_query_log
+# unsafe (but performant) developer configuration
+    command: >-
+      --innodb-checksum-algorithm=none
+      --innodb-flush-method=nosync
+      --innodb-flush-log-at-trx-commit=0
+      --innodb-log-file-size=2G
+      --skip-innodb-doublewrite
+      --skip-log-bin
+      --slow_query_log
     volumes:
       - "./documentation/dbSNPs.sql:/docker-entrypoint-initdb.d/dbSNPs.sql:ro"
       - mysqld-sock:/run/mysqld

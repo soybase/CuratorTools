@@ -92,18 +92,10 @@
 							<div class="container">
 								<div class="row">
 							    	<div class="col-sm-3 font-weight-bold">
-							      		Web Servers
+							      		Max Concurrent Requests
 							    	</div>
 							    	<div class="col-sm-9">
-							      		<?php echo count($objSettings->webservers); ?>
-							    	</div>
-								</div>
-								<div class="row">
-							    	<div class="col-sm-3 font-weight-bold">
-							      		Database Pool
-							    	</div>
-							    	<div class="col-sm-9">
-							      		<?php echo count($objSettings->database->pool); ?>
+							      		<?php echo $objSettings->max_concurrent_requests; ?>
 							    	</div>
 								</div>
 							</div>

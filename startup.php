@@ -14,10 +14,7 @@
 	}elseif(isset($_GET["core"])){
 		$objSettings->core = filter_input(INPUT_GET, "core", FILTER_VALIDATE_INT);
 	}
-	$objSettings->database->host = $objSettings->database->pool[$objSettings->core]["host"];
-	$objSettings->database->user = $objSettings->database->pool[$objSettings->core]["user"];
-	$objSettings->database->password = $objSettings->database->pool[$objSettings->core]["password"];
-	$objSettings->database->connection = new PDO('mysql:host='.$objSettings->database->host.';dbname='.$objSettings->database->name,$objSettings->database->user, $objSettings->database->password);
+	$objSettings->database->connection = new PDO('mysql:host='.$objSettings->database->host.';dbname='.$objSettings->database->name,$objSettings->database->user, $objSettings->database->password, array(PDO::ATTR_PERSISTENT => true));
 	//****************************************************************************************************************
 	//	^--- PHP -- 1B - END of choosing database connection
 	//****************************************************************************************************************
