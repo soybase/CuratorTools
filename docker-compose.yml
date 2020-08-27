@@ -28,14 +28,14 @@ services:
         condition: service_healthy
 
   mysql:
-    image: mysql:8
-    healthcheck:
-      test: mysqladmin ping -h localhost
+    image: mysql/mysql-server:8.0
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_DATABASE: dbCuratorTools
 # unsafe (but performant) developer configuration
+# RPM-based distributions put mysql socket file in /var/lib/mysql by default
     command: >-
+      --socket=/run/mysqld/mysqld.sock
       --innodb-checksum-algorithm=none
       --innodb-flush-method=nosync
       --innodb-flush-log-at-trx-commit=0
