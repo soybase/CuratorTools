@@ -3,6 +3,19 @@
 	//	^--- PHP -- 1A - START of settings
 	//****************************************************************************************************************
 	include "settings.php";
+    // HTTP basic auth for testing purposes
+    // https://www.php.net/manual/en/features.http-auth.php
+    if (getenv('PHP_AUTH_USER') ?: False) {
+        if (!isset($_SERVER['PHP_AUTH_USER'])) {
+            header('WWW-Authenticate: Basic realm="My Realm"');
+            header('HTTP/1.0 401 Unauthorized');
+            echo 'Must authenticate to use this service';
+            exit;
+        } elseif ($_SERVER['PHP_AUTH_USER'] != getenv('PHP_AUTH_USER') ||
+                  $_SERVER['PHP_AUTH_PW'] != getenv('PHP_AUTH_PW')) {
+            echo 'Invalid user name or password';
+        }
+    }
 	//****************************************************************************************************************
 	//	v--- PHP -- 1A - END of settings
 	//****************************************************************************************************************

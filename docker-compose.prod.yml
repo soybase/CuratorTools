@@ -1,0 +1,66 @@
+# prerequisite: create .env file with MYSQL_PASSWORD=...
+version: '2.3'
+
+services:
+  web:
+    build:
+      context: .
+      target: php
+    environment:
+      PHP_AUTH_USER:
+      PHP_AUTH_PW:
+      PHP_CLI_SERVER_WORKERS: 16
+      CURATORTOOLS_MAX_CONCURRENT_REQUESTS: 16
+      CURATORTOOLS_INSERT_BATCH_SIZE: 100
+      CURATORTOOLS_LOOP_INTERVAL: 100
+      CURATORTOOLS_SNP_CHUNK_SIZE: 100
+      MYSQL_HOST: 'localhost'
+      MYSQL_DATABASE: 'dbCuratorTools'
+      MYSQL_USER: phpsnp
+      MYSQL_PASSWORD:
+    user: daemon
+    ports:
+      - "8888:8080"
+    command: >-
+      php -S 0.0.0.0:8080
+      -c /opt/bitnami/php/etc/php.ini-development
+      -d pdo_mysql.default_socket=/run/mysqld/mysqld.sock
+    volumes:
+      - assembly_uploads:/app/assembly_uploads
+      - study_uploads:/app/study_uploads
+      - mysqld-sock:/run/mysqld
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+
+  mysql:
+    build:
+      context: .
+      target: mysql
+    restart: always
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: dbCuratorTools
+      MYSQL_USER: phpsnp
+      MYSQL_PASSWORD:
+    command: >-
+      --socket=/run/mysqld/mysqld.sock
+      --max-allowed-packet=1G
+      --tmp-table-size=1G
+      --table-definition-cache=50000
+      --table-open-cache=50000
+      --innodb-buffer-pool-size=64G
+      --innodb-log-file-size=8G
+      --innodb-flush-log-at-trx-commit=2
+      --innodb-read-io-threads=16
+      --innodb-write-io-threads=16
+    volumes:
+      - mysqld-sock:/run/mysqld
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysqld-sock:
+  mysql:
+  assembly_uploads:
+  study_uploads:

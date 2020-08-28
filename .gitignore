@@ -5,4 +5,4 @@
 *.vcf
 *.TXT
 *.txt
-settings.php
+.env
